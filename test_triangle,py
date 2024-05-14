@@ -1,0 +1,100 @@
+# classifyTriangle testēšana neizmantojot test library
+
+
+# testēšanas pieņēmumi:
+# uz funkciju jāpadod string vērtības(balstos uz interviju, kurā )
+
+
+from triangle import classifyTriangle
+
+# iespējamie rezultāti, kurus var atgriest funkcija classifyTriangle
+# "Trīsstūris nav iespējams","Trīsstūris ir vienādmalu","Trīsstūris ir vienādsānu","Trīsstūris ir dažādmalu"
+
+# input test list // format: (test name,input, expected output)
+testCases_input = {  ("simbols pirmajā mainīgajā",("@","2","1"), "Trīsstūris nav iespējams"),
+                    ("simbols otrajā mainīgajā",("2","@","0"), "Trīsstūris nav iespējams"),
+                    ("simbols trešajā mainīgajā",("1.6","2","@"), "Trīsstūris nav iespējams"),
+                    ("simbols visos mainīgajos",("@","!","^"), "Trīsstūris nav iespējams"),
+
+                    ("nulle pirmajā mainīgajā",("0","20.8","1"), "Trīsstūris nav iespējams"),
+                    ("nulle otrajā mainīgajā",("2","0","1"), "Trīsstūris nav iespējams"),
+                    ("nulle trešajā mainīgajā",("1","2","0"), "Trīsstūris nav iespējams"),
+                    ("nulle visos mainīgajos",("0","0","0"), "Trīsstūris nav iespējams"),
+
+                    ("negatīvs pirmajā mainīgajā",("-1","2","1"), "Trīsstūris nav iespējams"),
+                    ("negatīvs otrajā mainīgajā",("2","-1.21","1"), "Trīsstūris nav iespējams"),
+                    ("negatīvs trešajā mainīgajā",("1","2.8","-1"), "Trīsstūris nav iespējams"),
+                    ("negatīvs visos mainīgajos",("-1.132","-1","-1"), "Trīsstūris nav iespējams"),
+
+                    ("nav vērtības pirmajā mainīgajā",("","4.8","1"), "Trīsstūris nav iespējams"),
+                    ("nav vērtības otrajā mainīgajā",("3","","1"), "Trīsstūris nav iespējams"),
+                    ("nav vērtības trešajā mainīgajā",("1","2",""), "Trīsstūris nav iespējams"),
+                    ("nav vērtības visos mainīgajos",("","",""), "Trīsstūris nav iespējams")
+
+}
+# input test list // format: (test name,input, expected output)
+testCases_int = {  ("int ievade, vienādmalu 3st",("3","3","3"), "Trīsstūris ir vienādmalu"),
+                   ("int ievade, vienādsānu 3st",("2","2","1"), "Trīsstūris ir vienādsānu"),
+                   ("int ievade, dažādmalu 3st",("3","4","2"), "Trīsstūris ir dažādmalu"),
+                   ("int ievade, dažādmalu 3st",("1","1","2"), "Trīsstūris nav iespējams")
+}
+# input test list // format: (test name,input, expected output)
+testCases_float ={  ("float ievade, vienādmalu 3st",("12.561","12.561","12.561"), "Trīsstūris ir vienādmalu"),
+                    ("float ievade, vienādsānu 3st",("21.41","21.41","10.15"), "Trīsstūris ir vienādsānu"),
+                    ("float ievade, dažādmalu 3st",("31.8231","48.3123","21.11111"), "Trīsstūris ir dažādmalu"),
+                    ("float ievade, dažādmalu 3st",("1.312312","51.45645","20000.2131"), "Trīsstūris nav iespējams"),
+                    # float rounding error test
+                    ("float ievade, dažādmalu 3st, daudz ciparu",("1.2345678901234567","1.2345678901234567123","1.2345678901234567456"), "Trīsstūris ir dažādmalu"),
+                    ("float ievade, vienādsānu 3st, daudz ciparu",("1.2345678901234567","1.23456789012345670123","1.23456789012345670123"), "Trīsstūris ir vienādsānu"),
+                    ("float ievade, dažādmalu 3st, daudz ciparu",("1.2345678901234567444","1.2345678901234567123888","1.23456789012345674561111"), "Trīsstūris ir dažādmalu"),
+
+                    ("float ievade, dažādmalu 3st, daudz nulles",(  "0.000000000000000000000000000000000000000000000004",
+                                                                    "0.000000000000000000000000000000000000000000000002",
+                                                                    "0.000000000000000000000000000000000000000000000003"), 
+                                                                    "Trīsstūris ir dažādmalu"),
+                    ("float ievade, dažādmalu 3st, daudz nulles",(  "0.000000000000000000000000000000000000000000000004",
+                                                                    "0.000000000000000000000000000000000000000000000004",
+                                                                    "0.000000000000000000000000000000000000000000000004"),
+                                                                      "Trīsstūris ir vienādmalu"),
+                    ("float ievade, dažādmalu 3st, daudz nulles",(  "0.000000000000000000000000000000000000000000000002",
+                                                                    "0.000000000000000000000000000000000000000000000002",
+                                                                    "0.000000000000000000000000000000000000000000000003"),
+                                                                      "Trīsstūris ir vienādsānu")                               
+
+
+}
+
+def test_TVN(test_name, testCases):
+    countPassed=0
+    countFailed=0
+    countTotal=0
+    
+    print(test_name)
+    for test in testCases:
+        result = classifyTriangle(test[1][0],test[1][1],test[1][2])
+        if result == test[2]:
+            print(f"{test[0]} - PASSED")
+            countPassed+=1
+        else:
+            print(f"{test[0]} - FAILED")
+            print(f"input: {test[1]}")
+            print(f"expected: {test[2]}")
+            print(f"got: {result}\n")
+            countFailed+=1
+        countTotal+=1
+    print(f"\nTests PASSED: {countPassed}/{countTotal} \nTests FAILED: {countFailed}/{countTotal} \n")
+
+
+
+
+
+def main():
+
+    test_TVN("TVN_1 - nekorektas ievades pārbaude",testCases_input)
+    test_TVN("TVN_2 - gadījumi ar int vērtībām",testCases_int)
+    test_TVN("TVN_3 - gadījumi ar decimālām vērtībām",testCases_float)
+
+    #print(float("1.23456789012345678901"))# test pie cik cipariem sākas float rounding error
+
+
+main()
