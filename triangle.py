@@ -28,6 +28,22 @@
 # Gadījumā, kad trīsstūris ir dažādsānu tiek izvadīts paziņojums "Trīsstūris ir dažādsānu"
 
 
+
+# Funkcijas kods
+
+def triangleType(a,b,c):
+    #pārbaude vai trīsstūris ir iespējams
+    if (a+b<=c) or (a+c<=b) or (b+c<=a):
+        return "Trīsstūris nav iespējams"
+    #pārbaude vai trīsstūris ir vienādmalu
+    elif a==b and b == c:
+        return "Trīsstūris ir vienādmalu"
+    #pārbaude vai trīsstūris ir vienādsānu
+    elif a==b or a==c or b==c:
+        return "Trīsstūris ir vienādsānu"
+    else:
+        return "Trīsstūris ir dažādmalu"
+
 # funkcija kas nosaka trīsstūra veidu	
 def classifyTriangle(a,b,c): # a,b,c ir trīsstūra malu garumi
     try:
@@ -39,20 +55,12 @@ def classifyTriangle(a,b,c): # a,b,c ir trīsstūra malu garumi
         #pārbaude vai ievadītie dati ir <=0
         if a <= 0 or b <= 0 or c <= 0:
             return "Trīsstūris nav iespējams"
-        
-        #pārbaude vai trīsstūris ir iespējams
-        if (a+b<=c) or (a+c<=b) or (b+c<=a):
-            return "Trīsstūris nav iespējams"
-        #pārbaude vai trīsstūris ir vienādmalu
-        elif a==b and b == c:
-            return "Trīsstūris ir vienādmalu"
-        #pārbaude vai trīsstūris ir vienādsānu
-        elif a==b or a==c or b==c:
-            return "Trīsstūris ir vienādsānu"
-        else:
-            return "Trīsstūris ir dažādsānu"
     except ValueError as error:
         #print(error)
         return "Trīsstūris nav iespējams"
+    
+    return triangleType(a,b,c)
+
+    
 
 
